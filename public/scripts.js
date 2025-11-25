@@ -8,8 +8,39 @@ document.addEventListener('DOMContentLoaded', async () => {
   // Only run gate logic on index page
   if (document.getElementById('auth-form')) {
     await initGate();
+    initContactForm();
   }
 });
+
+/**
+ * Initialize the contact/request access form
+ */
+function initContactForm() {
+  const emailInput = document.getElementById('visitor-email');
+  const sendBtn = document.getElementById('request-access-btn');
+  
+  if (!emailInput || !sendBtn) return;
+  
+  sendBtn.addEventListener('click', () => {
+    const visitorEmail = emailInput.value.trim();
+    const subject = encodeURIComponent('Request Access - The Last Paideia');
+    const body = encodeURIComponent(
+      `Hi,\n\nI would like to request access to view "The Last Paideia - The Regime of Quiet Hands".\n\n` +
+      (visitorEmail ? `My email: ${visitorEmail}\n\n` : '') +
+      `Thank you.`
+    );
+    
+    window.location.href = `mailto:mohga@thelastpaideia.com?subject=${subject}&body=${body}`;
+  });
+  
+  // Allow Enter key to trigger send
+  emailInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      sendBtn.click();
+    }
+  });
+}
 
 /**
  * Initialize the password gate
