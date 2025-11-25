@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="The Last Paideia - The Regime of Quiet Hands">
+  <title>The Last Paideia - Watch</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body class="player-page">
+  <div class="texture-overlay"></div>
+  
+  <main class="player-container">
+    <header class="player-header">
+      <h1 class="player-title">The Last Paideia</h1>
+      <p class="player-subtitle">The Regime of Quiet Hands</p>
+    </header>
+    
+    <div class="video-wrapper">
+      <div class="video-glow"></div>
+      <div id="video-container" class="video-container">
+        <div id="video-loading" class="video-loading">
+          <div class="loading-ring"></div>
+          <p class="loading-text">Loading...</p>
+        </div>
+        <video 
+          id="video-player"
+          controls
+          playsinline
+          preload="metadata"
+        >
+          Your browser does not support the video tag.
+        </video>
+      </div>
+    </div>
+    
+    <div id="video-error" class="video-error hidden">
+      <p class="error-text">Unable to load the video. Please try again.</p>
+      <button id="retry-btn" class="retry-btn">Retry</button>
+    </div>
+    
+    <footer class="player-footer">
+      <button id="exit-btn" class="exit-btn">Exit</button>
+    </footer>
+  </main>
+  
+  <script src="/scripts.js"></script>
+  <script>
+    // Initialize player on load
+    document.addEventListener('DOMContentLoaded', initPlayer);
+  </script>
+</body>
+</html>
+
