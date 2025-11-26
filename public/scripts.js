@@ -133,8 +133,30 @@ async function initPlayer() {
   const videoError = document.getElementById('video-error');
   const retryBtn = document.getElementById('retry-btn');
   const exitBtn = document.getElementById('exit-btn');
+  const aboutBtn = document.getElementById('about-btn');
+  const aboutModal = document.getElementById('about-modal');
+  const modalClose = aboutModal?.querySelector('.modal-close');
+  const modalBackdrop = aboutModal?.querySelector('.modal-backdrop');
   
   if (!videoPlayer) return;
+  
+  // Check if public mode and swap buttons
+  try {
+    const configResponse = await fetch('/api/config');
+    const config = await configResponse.json();
+    
+    if (config.isPublic) {
+      // Public mode: show About button, hide Exit button
+      exitBtn?.classList.add('hidden');
+      aboutBtn?.classList.remove('hidden');
+    } else {
+      // Private mode: show Exit button, hide About button
+      exitBtn?.classList.remove('hidden');
+      aboutBtn?.classList.add('hidden');
+    }
+  } catch (error) {
+    console.error('Config check failed:', error);
+  }
   
   // Load video URL
   await loadVideo();
@@ -200,12 +222,36 @@ async function initPlayer() {
     });
   }
   
+  // About button - show modal
+  if (aboutBtn && aboutModal) {
+    aboutBtn.addEventListener('click', () => {
+      aboutModal.classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+    });
+  }
+  
+  // Close modal handlers
+  function closeModal() {
+    aboutModal?.classList.add('hidden');
+    document.body.style.overflow = '';
+  }
+  
+  modalClose?.addEventListener('click', closeModal);
+  modalBackdrop?.addEventListener('click', closeModal);
+  
   // Keyboard shortcuts
   document.addEventListener('keydown', (e) => {
-    // Escape to exit
+    // Escape to close modal or exit
     if (e.key === 'Escape') {
-      exitBtn?.click();
+      if (!aboutModal?.classList.contains('hidden')) {
+        closeModal();
+      } else {
+        exitBtn?.click();
+      }
     }
+    
+    // Don't handle other shortcuts if modal is open
+    if (!aboutModal?.classList.contains('hidden')) return;
     
     // Space to play/pause (when not focused on video)
     if (e.key === ' ' && document.activeElement !== videoPlayer) {

@@ -17,7 +17,7 @@
   
   <main class="player-container">
     <header class="player-header">
-      <h1 class="player-title">The Last Paideia</h1>
+      <h1 class="player-title">The Last Paideia<sup>™</sup></h1>
       <p class="player-subtitle">The Regime of Quiet Hands</p>
     </header>
     
@@ -48,7 +48,24 @@
       <p class="player-contact">contact: <a href="mailto:mohga@thelastpaideia.com">mohga@thelastpaideia.com</a></p>
       <p class="disclaimer">All characters and events depicted are fictional. Any resemblance to real persons is coincidental.</p>
       <button id="exit-btn" class="exit-btn">Exit</button>
+      <button id="about-btn" class="about-btn hidden">About</button>
     </footer>
+    
+    <!-- About Modal -->
+    <div id="about-modal" class="modal hidden">
+      <div class="modal-backdrop"></div>
+      <div class="modal-content">
+        <button class="modal-close" aria-label="Close">&times;</button>
+        <img src="/favicon.png" alt="The Last Paideia" class="modal-logo">
+        <h2 class="modal-title">The Last Paideia<sup>™</sup></h2>
+        <p class="modal-statement">
+          A speculative vision of governance, technology, and the quiet mechanisms of motivation.
+        </p>
+        <p class="modal-contact">
+          <a href="mailto:mohga@thelastpaideia.com">mohga@thelastpaideia.com</a>
+        </p>
+      </div>
+    </div>
   </main>
   
   <script src="/scripts.js"></script>
