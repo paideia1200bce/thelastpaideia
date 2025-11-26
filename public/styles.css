@@ -539,6 +539,16 @@ video::-webkit-media-controls-fullscreen-button {
   color: var(--accent-gold-dim);
 }
 
+.disclaimer {
+  font-size: 0.55rem;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+  opacity: 0.6;
+  max-width: 400px;
+  text-align: center;
+  line-height: 1.5;
+}
+
 .exit-btn {
   padding: var(--space-sm) var(--space-lg);
   background: transparent;
