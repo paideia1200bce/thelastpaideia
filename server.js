@@ -186,7 +186,7 @@ app.get("/video/local", requireAuth, (req, res) => {
 });
 
 // Serve player page (requires auth)
-app.get("/watch", (req, res) => {
+app.get("/view", (req, res) => {
   if (!IS_PUBLIC && !req.session.authenticated) {
     return res.redirect("/");
   }

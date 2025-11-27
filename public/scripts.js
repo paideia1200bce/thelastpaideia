@@ -59,7 +59,7 @@ async function initGate() {
     
     if (config.isPublic || config.isAuthenticated) {
       // Redirect to player
-      window.location.href = '/watch';
+      window.location.href = '/view';
       return;
     }
   } catch (error) {
@@ -93,7 +93,7 @@ async function initGate() {
       
       if (response.ok && data.success) {
         // Redirect to player
-        window.location.href = '/watch';
+        window.location.href = '/view';
       } else {
         // Show error
         authSection.classList.remove('hidden');
