@@ -157,10 +157,13 @@ app.get("/api/video-url", requireAuth, async (req, res) => {
     return res.json({ url: "/video/local", type: "local" });
   }
 
+  // Get video key from query parameter or use default
+  const videoKey = req.query.key || VIDEO_KEY;
+
   try {
     const command = new GetObjectCommand({
       Bucket: R2_BUCKET_NAME,
-      Key: VIDEO_KEY,
+      Key: videoKey,
     });
 
     // Generate signed URL valid for 1 hour

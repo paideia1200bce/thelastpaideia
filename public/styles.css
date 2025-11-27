@@ -424,6 +424,49 @@ body {
   letter-spacing: 0.15em;
 }
 
+/* Video Tabs */
+.video-tabs {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-md);
+  margin-top: var(--space-lg);
+  flex-wrap: wrap;
+}
+
+.video-tab {
+  padding: var(--space-sm) var(--space-lg);
+  background: transparent;
+  border: 1px solid var(--border-subtle);
+  color: var(--text-muted);
+  font-family: var(--font-body);
+  font-size: clamp(0.7rem, 1.5vw, 0.875rem);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all var(--transition-base);
+  position: relative;
+}
+
+.video-tab:hover {
+  border-color: var(--accent-gold-dim);
+  color: var(--text-secondary);
+}
+
+.video-tab.active {
+  border-color: var(--accent-gold);
+  color: var(--accent-gold);
+}
+
+.video-tab.active::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: var(--accent-gold);
+}
+
 /* Video Wrapper */
 .video-wrapper {
   flex: 1;

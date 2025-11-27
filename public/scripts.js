@@ -137,6 +137,7 @@ async function initPlayer() {
   const aboutModal = document.getElementById('about-modal');
   const modalClose = aboutModal?.querySelector('.modal-close');
   const modalBackdrop = aboutModal?.querySelector('.modal-backdrop');
+  const videoTabs = document.querySelectorAll('.video-tab');
   
   if (!videoPlayer) return;
   
@@ -158,15 +159,42 @@ async function initPlayer() {
     console.error('Config check failed:', error);
   }
   
-  // Load video URL
-  await loadVideo();
+  // Initialize tabs
+  let currentVideoKey = 'quiethands/FinalCut.mp4';
+  const subtitleElement = document.getElementById('player-subtitle');
   
-  async function loadVideo() {
+  videoTabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      // Update active state
+      videoTabs.forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      
+      // Get video key and subtitle from tab
+      currentVideoKey = tab.dataset.key;
+      const subtitle = tab.dataset.subtitle || '';
+      
+      // Update subtitle
+      if (subtitleElement) {
+        subtitleElement.textContent = subtitle;
+      }
+      
+      // Load new video
+      loadVideo(currentVideoKey);
+    });
+  });
+  
+  // Load initial video
+  await loadVideo(currentVideoKey);
+  
+  async function loadVideo(videoKey = 'quiethands/FinalCut.mp4') {
     videoLoading.classList.remove('hidden');
     videoError.classList.add('hidden');
     
+    // Pause current video
+    videoPlayer.pause();
+    
     try {
-      const response = await fetch('/api/video-url');
+      const response = await fetch(`/api/video-url?key=${encodeURIComponent(videoKey)}`);
       
       if (!response.ok) {
         if (response.status === 401) {
@@ -180,18 +208,30 @@ async function initPlayer() {
       const data = await response.json();
       
       if (data.url) {
+        // Remove old src to force reload
+        videoPlayer.src = '';
+        videoPlayer.load();
+        
+        // Set new src
         videoPlayer.src = data.url;
         
-        // Handle video events
-        videoPlayer.addEventListener('loadedmetadata', () => {
+        // Handle video events (one-time handlers)
+        const onLoadedMetadata = () => {
           videoLoading.classList.add('hidden');
-        });
+          videoPlayer.removeEventListener('loadedmetadata', onLoadedMetadata);
+          videoPlayer.removeEventListener('error', onError);
+        };
         
-        videoPlayer.addEventListener('error', (e) => {
+        const onError = (e) => {
           console.error('Video error:', e);
           videoLoading.classList.add('hidden');
           videoError.classList.remove('hidden');
-        });
+          videoPlayer.removeEventListener('loadedmetadata', onLoadedMetadata);
+          videoPlayer.removeEventListener('error', onError);
+        };
+        
+        videoPlayer.addEventListener('loadedmetadata', onLoadedMetadata, { once: true });
+        videoPlayer.addEventListener('error', onError, { once: true });
         
         // Start loading
         videoPlayer.load();
@@ -207,7 +247,11 @@ async function initPlayer() {
   
   // Retry button
   if (retryBtn) {
-    retryBtn.addEventListener('click', loadVideo);
+    retryBtn.addEventListener('click', () => {
+      const activeTab = document.querySelector('.video-tab.active');
+      const videoKey = activeTab ? activeTab.dataset.key : 'quiethands/FinalCut.mp4';
+      loadVideo(videoKey);
+    });
   }
   
   // Exit button - logout and return to gate

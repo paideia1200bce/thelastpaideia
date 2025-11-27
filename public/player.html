@@ -18,7 +18,15 @@
   <main class="player-container">
     <header class="player-header">
       <h1 class="player-title">The Last Paideia<sup>™</sup></h1>
-      <p class="player-subtitle">The Regime of Quiet Hands</p>
+      <nav class="video-tabs">
+        <button class="video-tab active" data-video="quiethands" data-key="quiethands/FinalCut.mp4" data-subtitle="The Regime of Quiet Hands">
+          The Regime of Quiet Hands
+        </button>
+        <button class="video-tab" data-video="giordano" data-key="giordanobruno_planetaryimages/bruno_planetary_images.mp4" data-subtitle="Renaissance Planetary Magic - Giordano Bruno">
+          Renaissance Planetary Magic - Giordano Bruno
+        </button>
+      </nav>
+      <p class="player-subtitle" id="player-subtitle">The Regime of Quiet Hands</p>
     </header>
     
     <div class="video-wrapper">
@@ -45,7 +53,6 @@
     </div>
     
     <footer class="player-footer">
-      <p class="player-contact">contact: <a href="mailto:mohga@thelastpaideia.com">mohga@thelastpaideia.com</a></p>
       <p class="disclaimer">All characters and events depicted are fictional. Any resemblance to real persons is coincidental.</p>
       <button id="exit-btn" class="exit-btn">Exit</button>
       <button id="about-btn" class="about-btn hidden">About</button>
